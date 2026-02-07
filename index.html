@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine.exe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-col: #000000;
+            --bg-col: #ffffff;
+        }
+
+        .theme-boy { --primary-col: #7b1fa2; --bg-col: #f3e5f5; }
+        .theme-girl { --primary-col: #d81b60; --bg-col: #ffebee; }
+
+        body {
+            margin: 0;
+            font-family: 'Press Start 2P', cursive;
+            background-color: var(--bg-col);
+            background-image: radial-gradient(var(--primary-col) 1px, transparent 1px);
+            background-size: 30px 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        .container {
+            background: #fff;
+            border: 8px solid var(--primary-col);
+            padding: 40px;
+            box-shadow: 12px 12px 0px var(--primary-col);
+            text-align: center;
+            z-index: 10;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .container-large { max-width: 650px; min-height: 400px; }
+
+        h1 { font-size: 14px; color: var(--primary-col); line-height: 1.6; }
+        
+        input[type="text"] { 
+            padding: 15px; border: 4px solid var(--primary-col); 
+            width: 80%; font-family: 'Press Start 2P'; margin-bottom: 20px; outline: none;
+        }
+
+        .radio-group { margin-bottom: 30px; font-size: 14px; display: flex; justify-content: center; gap: 30px; }
+        .radio-group label { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        input[type="radio"] { accent-color: var(--primary-col); transform: scale(1.8); cursor: pointer; }
+
+        /* PERFECT PIXEL HEART BUTTON */
+        .pixel-heart-btn {
+            background: none; border: none; cursor: pointer;
+            width: 130px; height: 120px;
+            position: absolute;
+            display: flex; align-items: center; justify-content: center;
+            /* Ultra-clean pixel heart path with minimal outline */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 13"><path d="M3 0h3v1h1v1h1V1h3V0h2v1h1v3h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1V9H6V8H5V7H4V6H3V5H2V4H1V1h2V0z" fill="%23ff0044" stroke="black" stroke-width="0.2"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        /* Adjusted text positioning for heart center */
+        .pixel-heart-btn span { 
+            color: white; 
+            font-size: 14px; 
+            margin-top: -10px; 
+            font-weight: bold; 
+            pointer-events: none;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+
+        .pixel-heart-btn:hover { transform: scale(1.15); }
+
+        #no-btn { 
+            background: #fff; color: #000; padding: 12px 20px; border: 4px solid #000;
+            font-family: 'Press Start 2P'; font-size: 10px;
+            position: absolute; transition: all 0.25s ease;
+        }
+
+        #blush-msg {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: var(--primary-col); font-size: 18px; text-align: center; z-index: 100;
+        }
+
+        .portal-close { animation: portalClose 0.5s forwards ease-in; }
+        .portal-open { animation: portalOpen 0.5s forwards ease-out; }
+        @keyframes portalClose { 100% { transform: scale(0) rotate(180deg); opacity: 0; } }
+        @keyframes portalOpen { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        .hidden { display: none !important; }
+        .celebration-img { width: 100%; border: 6px solid var(--primary-col); margin-bottom: 20px; box-shadow: 8px 8px 0px var(--primary-col); }
+    </style>
+</head>
+<body id="main-body">
+
+    <audio id="bg-music" loop><source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg"></audio>
+
+    <div id="screen1" class="container portal-open">
+        <h1 style="font-size: 20px; margin-bottom: 30px;">YOUR SWEET NAME ✨</h1>
+        <input type="text" id="nickname" placeholder="ENTER NAME...">
+        <div class="radio-group">
+            <label><input type="radio" name="gender" value="boy" onclick="changeTheme('boy')"> BOY</label>
+            <label><input type="radio" name="gender" value="girl" onclick="changeTheme('girl')"> GIRL</label>
+        </div>
+        <button onclick="portalSwap('screen1', 'screen2')" style="padding: 18px 40px; background: #000; color: #fff; font-family: 'Press Start 2P'; cursor: pointer; border: 4px solid #000;">GO</button>
+    </div>
+
+    <div id="screen2" class="container container-large hidden">
+        <h1 id="question">WILL YOU BE MY VALENTINE?</h1>
+        <div id="box-boundary" style="width: 100%; height: 280px; position: relative; margin-top: 20px;">
+            <button id="yes-btn" class="pixel-heart-btn" onclick="portalSwap('screen2', 'screen3')" style="left: 20%; top: 35%;">
+                <span>YES</span>
+            </button>
+            <button id="no-btn" style="left: 65%; top: 40%;">NO</button>
+        </div>
+    </div>
+
+    <div id="blush-msg" class="hidden">I SAW YOU BLUSH.. 🤭</div>
+
+    <div id="screen3" class="container hidden">
+        <img class="celebration-img" src="">
+        <h1 style="font-size: 16px;">MY HEART IS YOURS ❤️</h1>
+        <p style="font-size: 9px; line-height: 2.2; margin-top: 15px;">
+            EVERYWHERE OF MY WORLD <br> 
+            LIT UP WHEN YOU SAID YES. <br>
+            YOU'RE MY FAVORITE PERSON!
+        </p>
+        <p style="font-size: 10px; color: var(--primary-col); margin-top: 20px; font-weight: bold;">I'M WAITING FOR YOU... 📞</p>
+    </div>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        const body = document.getElementById('main-body');
+        const questionText = document.getElementById('question');
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        let qIndex = 0;
+        let rIndex = 0;
+
+        const goofyQs = ["ARE YOU SURE? 🤨", "THINK AGAIN... 🧐", "REALLY? 😢", "WRONG BUTTON! 🤡", "DON'T BE MEAN! 💔", "I'LL CRY... 🥺", "GIVE IT A CHANCE! ✨", "YOU'RE TEASING! 😂", "SAY YES! 😤"];
+        const romanticTexts = ["I KNEW IT! 🥰", "YOU'RE SO SWEET... 🍭", "HEART RACING! 💓", "PRETTY EYES! ✨", "WE'RE PERFECT! 💖"];
+
+        function changeTheme(gender) {
+            body.classList.remove('theme-boy', 'theme-girl');
+            body.classList.add('theme-' + gender);
+        }
+
+        function portalSwap(curr, next) {
+            if (curr === 'screen1') {
+                const name = document.getElementById('nickname').value;
+                if (!name || !document.querySelector('input[name="gender"]:checked')) return alert("Please fill details!");
+                music.play();
+                document.getElementById('question').innerText = name.toUpperCase() + ", WILL YOU BE MY VALENTINE?";
+            }
+
+            if (next === 'screen3') {
+                document.getElementById(curr).classList.add('portal-close');
+                setTimeout(() => {
+                    document.getElementById(curr).classList.add('hidden');
+                    document.getElementById('blush-msg').classList.remove('hidden');
+                    setTimeout(() => {
+                        document.getElementById('blush-msg').classList.add('hidden');
+                        document.getElementById(next).classList.remove('hidden');
+                        document.getElementById(next).classList.add('portal-open');
+                    }, 1500);
+                }, 500);
+            } else {
+                document.getElementById(curr).classList.add('portal-close');
+                setTimeout(() => {
+                    document.getElementById(curr).classList.add('hidden');
+                    document.getElementById(next).classList.remove('hidden');
+                    document.getElementById(next).classList.add('portal-open');
+                }, 500);
+            }
+        }
+
+        noBtn.addEventListener('mouseover', () => {
+            const boundary = document.getElementById('box-boundary');
+            const maxX = boundary.offsetWidth - noBtn.offsetWidth;
+            const maxY = boundary.offsetHeight - noBtn.offsetHeight;
+            noBtn.style.left = Math.random() * maxX + 'px';
+            noBtn.style.top = Math.random() * maxY + 'px';
+            questionText.innerText = goofyQs[qIndex];
+            qIndex = (qIndex + 1) % goofyQs.length;
+        });
+
+        // ENTER triggers romantic text
+        yesBtn.addEventListener('mouseenter', () => {
+            questionText.innerText = romanticTexts[rIndex];
+            rIndex = (rIndex + 1) % romanticTexts.length;
+        });
+    </script>
+</body>
+</html>
