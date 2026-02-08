@@ -11,8 +11,8 @@
             --bg-col: #ffffff;
         }
 
-        .theme-boy { --primary-col: #7b1fa2; --bg-col: #f3e5f5; }
-        .theme-girl { --primary-col: #d81b60; --bg-col: #ffebee; }
+        .theme-boy { --primary-col: #9c1fd1; --bg-col: #f3e5f5; }
+        .theme-girl { --primary-col: #cc1f6d; --bg-col: #ffebee; }
 
         body {
             margin: 0;
@@ -25,7 +25,7 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            transition: background-color 0.5s ease;
+            transition: all 0.5s ease;
         }
 
         .container {
@@ -40,10 +40,43 @@
             position: relative;
         }
 
-        .container-large { max-width: 650px; min-height: 400px; }
+        .container-large { max-width: 650px; min-height: 480px; }
 
         h1 { font-size: 14px; color: var(--primary-col); line-height: 1.6; }
-        
+
+        /* HEART MONITOR (EKG) EFFECT */
+        .monitor-container {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .ekg-svg {
+            width: 350px;
+            height: 80px;
+            filter: drop-shadow(2px 2px 0px #000) drop-shadow(-1px -1px 0px #000);
+        }
+
+        .ekg-line {
+            stroke: var(--primary-col);
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: dash 4s linear infinite;
+        }
+
+        .fast-beat .ekg-line {
+            animation: dash 1.0s linear infinite;
+            filter: drop-shadow(0 0 10px var(--primary-col));
+            stroke-width: 4;
+        }
+
+        @keyframes dash { to { stroke-dashoffset: 0; } }
+
         input[type="text"] { 
             padding: 15px; border: 4px solid var(--primary-col); 
             width: 80%; font-family: 'Press Start 2P'; margin-bottom: 20px; outline: none;
@@ -53,58 +86,70 @@
         .radio-group label { display: flex; align-items: center; gap: 10px; cursor: pointer; }
         input[type="radio"] { accent-color: var(--primary-col); transform: scale(1.8); cursor: pointer; }
 
-        /* PERFECT PIXEL HEART BUTTON */
+        .button-wrapper {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 100px;
+        }
+
+        /* UPDATED YES BUTTON WITH YOUR DOWNLOADED IMAGE */
         .pixel-heart-btn {
             background: none; border: none; cursor: pointer;
-            width: 130px; height: 120px;
-            position: absolute;
-            display: flex; align-items: center; justify-content: center;
-            /* Ultra-clean pixel heart path with minimal outline */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 13"><path d="M3 0h3v1h1v1h1V1h3V0h2v1h1v3h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1V9H6V8H5V7H4V6H3V5H2V4H1V1h2V0z" fill="%23ff0044" stroke="black" stroke-width="0.2"/></svg>');
+            width: 100px; height: 80px;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            background-image: url('download.png'); /* Using your uploaded image */
             background-size: contain;
             background-repeat: no-repeat;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-position: center;
+            z-index: 15;
+            transition: transform 0.1s;
         }
         
-        /* Adjusted text positioning for heart center */
         .pixel-heart-btn span { 
             color: white; 
             font-size: 14px; 
-            margin-top: -10px; 
             font-weight: bold; 
-            pointer-events: none;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+            pointer-events: none; 
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+            /* Center alignment adjustment */
+            padding-bottom: 8px;
+            padding-right: 2px;
         }
-
-        .pixel-heart-btn:hover { transform: scale(1.15); }
 
         #no-btn { 
             background: #fff; color: #000; padding: 12px 20px; border: 4px solid #000;
             font-family: 'Press Start 2P'; font-size: 10px;
-            position: absolute; transition: all 0.25s ease;
+            cursor: pointer;
+            z-index: 14;
+            transition: left 0.15s ease, top 0.15s ease;
         }
 
         #blush-msg {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: var(--primary-col); font-size: 18px; text-align: center; z-index: 100;
+            color: var(--primary-col); font-size: 16px; text-align: center; z-index: 100;
+            background: white; border: 4px solid var(--primary-col); padding: 25px;
+            box-shadow: 10px 10px 0px var(--primary-col);
         }
 
-        .portal-close { animation: portalClose 0.5s forwards ease-in; }
-        .portal-open { animation: portalOpen 0.5s forwards ease-out; }
-        @keyframes portalClose { 100% { transform: scale(0) rotate(180deg); opacity: 0; } }
-        @keyframes portalOpen { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
         .hidden { display: none !important; }
-        .celebration-img { width: 100%; border: 6px solid var(--primary-col); margin-bottom: 20px; box-shadow: 8px 8px 0px var(--primary-col); }
+        .celebration-img { width: 100%; border: 6px solid var(--primary-col); margin-bottom: 20px; }
     </style>
 </head>
 <body id="main-body">
 
-    <audio id="bg-music" loop><source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg"></audio>
+    <audio id="bg-music" loop><source src="ar_rahman_best_flute.mp3" type="audio/mpeg"></audio>
+    <audio id="pop-sound"><source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg"></audio>
 
-    <div id="screen1" class="container portal-open">
-        <h1 style="font-size: 20px; margin-bottom: 30px;">YOUR SWEET NAME ✨</h1>
-        <input type="text" id="nickname" placeholder="ENTER NAME...">
+    <div id="screen1" class="container">
+        <h1 style="font-size: 20px; margin-bottom: 30px;">VALENTINE.exe ✨</h1>
+        <input type="text" id="nickname" placeholder="Nee Muddu Peru Emi...">
         <div class="radio-group">
             <label><input type="radio" name="gender" value="boy" onclick="changeTheme('boy')"> BOY</label>
             <label><input type="radio" name="gender" value="girl" onclick="changeTheme('girl')"> GIRL</label>
@@ -113,39 +158,41 @@
     </div>
 
     <div id="screen2" class="container container-large hidden">
+        <div class="monitor-container" id="monitor">
+            <svg class="ekg-svg" viewBox="0 0 200 40">
+                <polyline class="ekg-line" points="0,25 20,25 25,15 30,35 35,25 55,25 60,5 65,35 70,25 90,25 95,15 100,35 105,25 125,25 130,5 135,40 140,25 160,25 165,15 170,35 175,25 200,25" />
+            </svg>
+        </div>
         <h1 id="question">WILL YOU BE MY VALENTINE?</h1>
-        <div id="box-boundary" style="width: 100%; height: 280px; position: relative; margin-top: 20px;">
-            <button id="yes-btn" class="pixel-heart-btn" onclick="portalSwap('screen2', 'screen3')" style="left: 20%; top: 35%;">
+        <div class="button-wrapper" id="box-boundary">
+            <button id="yes-btn" class="pixel-heart-btn" onclick="portalSwap('screen2', 'screen3')">
                 <span>YES</span>
             </button>
-            <button id="no-btn" style="left: 65%; top: 40%;">NO</button>
+            <button id="no-btn">NO</button>
         </div>
     </div>
 
-    <div id="blush-msg" class="hidden">I SAW YOU BLUSH.. 🤭</div>
+    <div id="blush-msg" class="hidden">Making me blushed already 🫣</div>
 
     <div id="screen3" class="container hidden">
-        <img class="celebration-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eXFpazB6eXJ6eHpxeHpxeHpxeHpxeHpxeHpxeHpxeHpxeHpxeHpxJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/m8f0mKx70d8Nq/giphy.gif">
-        <h1 style="font-size: 16px;">MY HEART IS YOURS ❤️</h1>
-        <p style="font-size: 9px; line-height: 2.2; margin-top: 15px;">
-            EVERY PIXEL OF MY WORLD <br> 
-            LIT UP WHEN YOU SAID YES. <br>
-            YOU'RE MY FAVORITE PERSON!
-        </p>
-        <p style="font-size: 10px; color: var(--primary-col); margin-top: 20px; font-weight: bold;">I'M WAITING FOR YOU... 📞</p>
+        <img class="celebration-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIyc3B6eGZ3Y3R3eGZ3eGZ3eGZ3eGZ3eGZ3eGZ3eGZ3JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/MDJ9uUvLX1f3S/giphy.gif">
+        <h1 style="font-size: 18px;">YAY! ❤️</h1>
+        <p>I KNEW YOU WOULD SAY YES!</p>
     </div>
 
     <script>
         const music = document.getElementById('bg-music');
+        const popSound = document.getElementById('pop-sound');
         const body = document.getElementById('main-body');
+        const monitor = document.getElementById('monitor');
         const questionText = document.getElementById('question');
         const noBtn = document.getElementById('no-btn');
         const yesBtn = document.getElementById('yes-btn');
-        let qIndex = 0;
-        let rIndex = 0;
+        const boundary = document.getElementById('box-boundary');
+        const blushMsg = document.getElementById('blush-msg');
 
-        const goofyQs = ["ARE YOU SURE? 🤨", "THINK AGAIN... 🧐", "REALLY? 😢", "WRONG BUTTON! 🤡", "DON'T BE MEAN! 💔", "I'LL CRY... 🥺", "GIVE IT A CHANCE! ✨", "YOU'RE TEASING! 😂", "SAY YES! 😤"];
-        const romanticTexts = ["I KNEW IT! 🥰", "YOU'RE SO SWEET... 🍭", "HEART RACING! 💓", "PRETTY EYES! ✨", "WE'RE PERFECT! 💖"];
+        let qIndex = 0;
+        const goofyQs = ["ARE YOU SURE? 🤨", "THINK AGAIN... 🧐", "PAKKA NA? 😢", "WRONG BUTTON CHITTI 💔","AMMA BOMMALI 👻","CHAL JHUTHI 😙"];
 
         function changeTheme(gender) {
             body.classList.remove('theme-boy', 'theme-girl');
@@ -156,45 +203,66 @@
             if (curr === 'screen1') {
                 const name = document.getElementById('nickname').value;
                 if (!name || !document.querySelector('input[name="gender"]:checked')) return alert("Please fill details!");
-                music.play();
+                music.play().catch(e => {});
                 document.getElementById('question').innerText = name.toUpperCase() + ", WILL YOU BE MY VALENTINE?";
             }
 
-            if (next === 'screen3') {
-                document.getElementById(curr).classList.add('portal-close');
+            if (curr === 'screen2' && next === 'screen3') {
+                document.getElementById(curr).classList.add('hidden');
+                blushMsg.classList.remove('hidden');
+                // Decreased delay to 800ms
                 setTimeout(() => {
-                    document.getElementById(curr).classList.add('hidden');
-                    document.getElementById('blush-msg').classList.remove('hidden');
-                    setTimeout(() => {
-                        document.getElementById('blush-msg').classList.add('hidden');
-                        document.getElementById(next).classList.remove('hidden');
-                        document.getElementById(next).classList.add('portal-open');
-                    }, 1500);
-                }, 500);
-            } else {
-                document.getElementById(curr).classList.add('portal-close');
-                setTimeout(() => {
-                    document.getElementById(curr).classList.add('hidden');
+                    blushMsg.classList.add('hidden');
                     document.getElementById(next).classList.remove('hidden');
-                    document.getElementById(next).classList.add('portal-open');
-                }, 500);
+                }, 1200); 
+            } else {
+                document.getElementById(curr).classList.add('hidden');
+                document.getElementById(next).classList.remove('hidden');
             }
         }
 
         noBtn.addEventListener('mouseover', () => {
-            const boundary = document.getElementById('box-boundary');
-            const maxX = boundary.offsetWidth - noBtn.offsetWidth;
-            const maxY = boundary.offsetHeight - noBtn.offsetHeight;
-            noBtn.style.left = Math.random() * maxX + 'px';
-            noBtn.style.top = Math.random() * maxY + 'px';
+            if (noBtn.style.position !== 'absolute') {
+                const yesLeft = yesBtn.offsetLeft;
+                const yesTop = yesBtn.offsetTop;
+                yesBtn.style.position = 'absolute';
+                yesBtn.style.left = yesLeft + 'px';
+                yesBtn.style.top = yesTop + 'px';
+                noBtn.style.position = 'absolute';
+            }
+
+            const yesRect = yesBtn.getBoundingClientRect();
+            const bRect = boundary.getBoundingClientRect();
+
+            let newLeft, newTop;
+            let isSafe = false;
+
+            while (!isSafe) {
+                newLeft = Math.random() * (boundary.offsetWidth - noBtn.offsetWidth);
+                newTop = Math.random() * (boundary.offsetHeight - noBtn.offsetHeight);
+                const noCenterX = bRect.left + newLeft + (noBtn.offsetWidth / 2);
+                const noCenterY = bRect.top + newTop + (noBtn.offsetHeight / 2);
+                const yesCenterX = yesRect.left + (yesRect.width / 2);
+                const yesCenterY = yesRect.top + (yesRect.height / 2);
+                const distance = Math.sqrt(Math.pow(noCenterX - yesCenterX, 2) + Math.pow(noCenterY - yesCenterY, 2));
+                if (distance > 180) isSafe = true;
+            }
+
+            noBtn.style.left = newLeft + 'px';
+            noBtn.style.top = newTop + 'px';
             questionText.innerText = goofyQs[qIndex];
             qIndex = (qIndex + 1) % goofyQs.length;
+            monitor.classList.remove('fast-beat');
         });
 
-        // ENTER triggers romantic text
         yesBtn.addEventListener('mouseenter', () => {
-            questionText.innerText = romanticTexts[rIndex];
-            rIndex = (rIndex + 1) % romanticTexts.length;
+            monitor.classList.add('fast-beat');
+            popSound.currentTime = 0;
+            popSound.play().catch(e => {});
+        });
+
+        yesBtn.addEventListener('mouseleave', () => {
+            monitor.classList.remove('fast-beat');
         });
     </script>
 </body>
